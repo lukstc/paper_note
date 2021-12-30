@@ -1,6 +1,6 @@
 # vocab prepare
 
-Summary: 最主要的区别在于对于whitespace的处理，各自具体prepare vocab的方法有多种（例如BPE）并不是本质上的区别
+**Summary**: 最主要的区别在于对于whitespace的处理，各自具体prepare vocab的方法有多种（例如BPE）并不是本质上的区别
 
 main topic(s):
 - compare wordPiece & sentencePiece
@@ -12,7 +12,6 @@ tokenizing text: 将text文本转化为words，subwords,然后根据mapping、lo
 - [2] Subword tokenization
   - Byte-Pair Encoding (BPE)
   - WordPiece
-  - Unigram
   - SentencePiece
 
 ## Space, Punctuation, Rule-based
@@ -35,7 +34,7 @@ tokenizing text: 将text文本转化为words，subwords,然后根据mapping、lo
 - create base vocabulary: `['b', 'g', 'h', 'n', 'p', 's', 'u', ]`
   - split based on base-vocabular: `[("h,u,g",10), ("p,u,g",5),("p,u,n",12) ,("b,u,n",4) ,("h,u,g,s",5)]`
   - 计算频率并合并
-![BPE](document.asset/BPE.png)
+  ![BPE](document.assets/BPE.png)
 - 停止合并（训练）；合并后的词典vocabulary可以应用于新的单词（前提是没有新增的，未曾见到过的标点符号）
 
 ### WordPiece
@@ -52,11 +51,16 @@ tokenizing text: 将text文本转化为words，subwords,然后根据mapping、lo
   - google `text.BertTokenizer` 和 `text.WordPieceTokenizer` 都使用了WordPiece的逻辑，
   - 但`text.BertTokenizer`为`text.WordPieceTokenizer`的higher level的interface，可以直接take sentences as input
   - `text.WordPieceTokenizer`只能take words as input
-
 - 适用语言：
   - WordPiece适用于英语等通过标识分割的文本，但并不适合中文日文等基于语义的文本
   - SentencePiece也可适用于英语和中文类文本
   - "This tutorial builds a Wordpiece vocabulary in a top down manner, starting from existing words. This process doesn't work for Japanese, Chinese, or Korean since these languages don't have clear multi-character units. To tokenize these languages conside using `text.SentencepieceTokenizer`, `text.UnicodeCharTokenizer` or [this approach](https://tfhub.dev/google/zh_segmentation/1)."
+
+![img](document.assets/compare.png)
+
+- 讲解文章：
+  - [Medium - Jacky WONG - Understanding SentencePiece ([Under][Standing][_Sentence][Piece])](https://jacky2wong.medium.com/understanding-sentencepiece-under-standing-sentence-piece-ac8da59f6b08)
+  - [Deep Learning, NLP, and Representations](https://colah.github.io/posts/2014-07-NLP-RNNs-Representations/)
 
 ## Reference
 - [1] [CSDN - kaiyin_hzau - BPE, WordPiece, SentencePiece](https://blog.csdn.net/qq_27586341/article/details/113424560)
