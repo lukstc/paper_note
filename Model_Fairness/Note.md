@@ -73,27 +73,27 @@
     - Z: binary protected attribute
       - Z=0 [unpriviliged]
       - Z=1 [priviliged]
-- Algorithm A![image-20201018170859905](/Users/e0465278/Documents/Paper/Fairness/image-20201018170859905.png)
-- Predicted score:![image-20201018171050333](/Users/e0465278/Documents/Paper/Fairness/image-20201018171050333.png)
-- threshold 𝜏 & indicator : ![image-20201018171127120](/Users/e0465278/Documents/Paper/Fairness/image-20201018171127120.png)
+- Algorithm A![image-20201018170859905](Note.assets/image-20201018170859905.png)![image-20201018170859905]()
+- Predicted score:![image-20201018171050333](Note.assets/image-20201018171050333.png)
+- threshold 𝜏 & indicator : ![image-20201018171127120](Note.assets/image-20201018171127120.png)
 - **Algorithm A: may have a continuous or binary fairness parameter 𝜆 which trades off fairness and classification performance**
   - **𝜆 = 0:  no fairness intervention** 
   - **𝜆 = 1:  maximum fairness intervention** 
 - predictive-performance metric: quantifying how well the output scores predict the true labels
 - fairness metric: deter-mine how symmetric (i.e., unbiased or unprejudiced) the predicted labels are with respect to the protected attributes.
-  - Equality of Opportunity (EO): ![image-20201018172118705](/Users/e0465278/Documents/Paper/Fairness/image-20201018172118705.png)
-  - Disparate Impact (DI): ![image-20201018172056732](/Users/e0465278/Documents/Paper/Fairness/image-20201018172056732.png)
+  - Equality of Opportunity (EO): ![image-20201018172118705](Note.assets/image-20201018172118705.png)
+  - Disparate Impact (DI): ![image-20201018172056732](Note.assets/image-20201018172056732.png)
   - **Rule: DI value of less then 80% is taken as an indicator of unwarranted discrimination and initiates further in- vestigation (the “four-fifths rule”)**
-- DI is not optimized directly [via: Statistical Parity Difference (SPD)]: ![image-20201018172455999](/Users/e0465278/Documents/Paper/Fairness/image-20201018172455999.png)
+- DI is not optimized directly [via: Statistical Parity Difference (SPD)]: ![image-20201018172455999](Note.assets/image-20201018172455999.png)
 
 ### 3.1-Fair efficiency
 
 - helper integral 𝐾𝑚：
-  - ![image-20201019093737576](/Users/e0465278/Documents/Paper/Fairness/image-20201019093737576.png)
+  - ![image-20201019093737576](Note.assets/image-20201019093737576.png)
   - predictive-performance metric 𝑝
   - fairness metric 𝑓
   - fair efficiency Θ 【harmonic mean between 𝐾𝑝 and 𝐾𝑓 】
-    - ![image-20201019093910939](/Users/e0465278/Documents/Paper/Fairness/image-20201019093910939.png)
+    - ![image-20201019093910939](Note.assets/image-20201019093910939.png)
     - m
 
 ---
@@ -139,7 +139,7 @@
   - **Simple - Proxy (S-P)**：z通过部分x变量影响
   - **Interactions - Direct (I-D)** z可直接影响y，收x变量影响（x为binary）
   - **Interactions - Proxy (I-P)**通过interaction影响部分x变量
-  - ![image-20201019091106986](/Users/e0465278/Documents/Paper/Fairness/image-20201019091106986.png)
+  - ![image-20201019091106986](Note.assets/image-20201019091106986.png)
 
 
 
@@ -150,7 +150,7 @@
 - Policy Free: all threshhold （使用fair effeciency matrix）
 - Measure:
   - accuracy and precision: Argmax & PPR
-  - AUC: fair efficiency: ![image-20201019092037475](/Users/e0465278/Documents/Paper/Fairness/image-20201019092037475.png)
+  - AUC: fair efficiency: ![image-20201019092037475](Note.assets/image-20201019092037475.png)
 - Flow:
   - 1-get hyperparameters
   - 2-training
@@ -256,7 +256,7 @@
 - 给feature打分
   - 奖励predict - Y
   - 惩罚predict - Z
-  - ![image-20201019145131402](/Users/e0465278/Documents/Paper/Fairness/image-20201019145131402.png)
+  - ![image-20201019145131402](Note.assets/image-20201019145131402.png)
 
 ## Reference
 
