@@ -55,7 +55,7 @@ ZabdZabdac => aaabdaaabdac
 
 NMT: Nerual Machine Translation 在翻译领域有较好的表现。
 
-但是针对不常见的词语翻译表现任然不尽人意。针对NMT model的词汇表通常有3w ~ 5w词汇表长度的限制，尔翻译实际上是一个open-vocabulary的问题，词汇长度不定，会有罕见词汇，新词，没见过的组合词汇等；
+但是针对不常见的词语翻译表现任然不尽人意。针对NMT model的词汇表通常有3w ~ 5w词汇表长度的限制，而翻译实际上是一个open-vocabulary的问题，词汇长度不定，会有罕见词汇，新词，没见过的组合词汇等；
 
 例如：
 
