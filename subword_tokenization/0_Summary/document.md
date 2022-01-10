@@ -4,6 +4,10 @@ This note is a summary of sub-word tokenization and vocabulary preparation.
 
 For methodology's details and paper, refer to the associate folder.
 
+文中介绍的分词算法已经全部有成熟的package去实现，不需要我们重造wheel；
+
+了解背后的算法和理念能够帮助我们更好的实施准备和后续工作
+
 
 
 ## Table of Content
@@ -121,7 +125,7 @@ Rico Sennrich, Barry Haddow, and Alexandra Birch在其论文[[1]]中的提出的
 
 ### Features/Packages
 
-- Subword-NMT: Rico Sennrich 等人基于BPE开发的包
+- Subword-NMT: Rico Sennrich 等人基于BPE算法开发的包
 - BertTokenizer/WordPiece: Google为TensorFlow Text开发的包
 - SentencePiece: Google开发的集成多种拆解分词算法的Tokenizer工具
 
@@ -188,13 +192,13 @@ Google的WordPiece在准备Vocab的底层同样使用了BPE的逻辑，不过在
 异同点在于：
 
 - BPE和WordPiece都是初始化Char level的字符然后进行合并merge迭代
-- BPE迭代过程当中合并merge取决于这个pair的出现频率，合并出现频率最高的组合
+  - BPE迭代过程当中合并merge取决于这个pair的出现频率，合并出现频率最高的组合
 - WordPiece合并subword取决于一个决策函数：[(Ref#1)]()[(Ref#2)]()
-  - 假设句子 $S = (t_1, t_2, t_3 ... t_n)$ 由n个子词组成
+  - 假设subword sequence由 $S = (t_1, t_2, t_3 ... t_n)$ 由n个子词组成
   - $t_i$表示子词，且假设各个子词之间是独立independent存在的
-  - 则句子$S$的语言模型似然值等价于所有子词概率的乘积
+  - 则sequence序列 $S$ 的语言模型似然值等价于所有子词出现概率的乘积
     - $\log(P(S)) = \sum_{i=1}^{n}\log(P(t_i))$
-  - 加入把相邻位置的两个词$x$和$y$合并，产生新的字词记为$z$，这时句子$S$的似然值会发生如下变化（增加或者减少）
+  - 假如把相邻位置的两个词 $x$ 和 $y$ 合并，产生新的字词记为 $z$ ，这时句子 $S$ 的似然值会发生如下变化（增加或者减少）
     - $\log(P(t_z)) - [\log(P(t_x)) + \log(P(t_y))] = \log(\frac{P(t_z)}{P(t_x)P(t_y)})$ 
   - 上述公式实际上就是$x$和$y$之间的互信息，也就是说明subword $x$和$y$在语言模型上有较强的相关性（常以相邻的方式出现）
   - WordPiece据此来决定是否合并merge生成新的subword vocab
@@ -211,22 +215,18 @@ BPE虽然解决了准备vocab的问题，但是另一个subword分词的问题�
 
 Taku Kudo提出了不同的解决思路[(Kudo, 2018)]()
 
-对比一下BPE和WordPiece，我们能对Unigram有更好的理解：
+对比BPE&WordPiece，我们能对Unigram有更好的理解：
 
 - Vocab准备
   - BPE/WordPiece从小到大（先char-level, 英文26个字符+标点符号）;
   - Unigram：先准备足够大的词表，根据一个标准不断丢弃不需要的subword直到满足限定条件;
 - Tokenization process:
-  - BPE/WordPiece: greedy maxmatch，只产生一种分词结果
-  - Unigram LM: 根据概率产生多个可能的结果，返回top#1（or top#n）结果
+  - BPE/WordPiece: greedy maxmatch，从左到右，匹配最长的possible match，只产生一种分词结果
+  - Unigram LM: 产生多个可能的结果，根据概率返回top#1（or top#n）结果
 
 Unigram的Vocab准备和tokenization分词过程相对复杂，详解参见folder和ref
 
 
-
-## From the user's perspective
-
-Usage
 
 ## Reference
 

@@ -96,6 +96,28 @@ details参见code
 
 ![BPE_operation](note.assets/BPE_operation.png)
 
+```
+subword-nmt learn-joint-bpe-and-vocab [-h] --input PATH [PATH ...] --output PATH [--symbols SYMBOLS] [--separator STR] --write-vocabulary PATH [PATH ...] [--min-frequency FREQ] [--total-symbols] [--num-workers NUM_WORKERS] [--verbose]
+subword-nmt learn-joint-bpe-and-vocab --input raw_corpus.txt -s 8 -o en_bpe --write-vocabulary vocab_file
+
+usage: subword-nmt apply-bpe 
+[-h]
+[--input PATH] --codes PATH 
+[--merges INT] [--output PATH] [--separator STR] 
+[--vocabulary PATH] [--vocabulary-threshold INT] [--dropout P] [--glossaries STR [STR ...]][--seed S] [--num-workers NUM_WORKERS]
+
+subword-nmt apply-bpe -i test_corpus.txt --codes en_bpe --output test_corpus_processed.txt
+```
+
+- 训练BPE模型（not exactly a model training process, but）
+  - raw_corpus.txt 作为我们的语料库
+  - en_bpe文件中记录了我们得到的的BPE合并规则
+  - vocab_file记录我们的词库
+- 应用BPE结果
+  - test_corpus.txt作为我们的input语料
+  - 使用en_bpe规则来进行处理
+  - 处理后的数据（文本）输出到test_corpus_processed.txt
+
 
 
 ## Referance
