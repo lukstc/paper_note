@@ -12,17 +12,19 @@ Kudo在论文中介绍了一种新的方法来解决上述问题：利用概率�
 
 ## Subword Segmentation
 
-Unigram LM assume假设：
+Unigram Language Model assume假设：
 
-- vocab中所有的subword occurs independently
-- 因此，the probability of a subword sequence$X = (x_1,x_2,x_3...x_M)$等于各个subword出现概率的乘积
+- 我们现在已经有了一个Vocab，并且vocab中所有的subword occurs independently
+- 因此，the probability of a subword sequence $X = (x_1,x_2,x_3...x_M)$等 于各个subword出现概率的乘积
+  - $X = (x_1,x_2,x_3...x_M)$
   - $P(X) = \prod_{i=1}^{M}p(x_i)$
   - $\forall_{i}x_i\in{V}, \sum_{x\in{V}}=1$
-  - 其中V是pre-determined vocabulary
-- The most probable segmentation x∗ for the input sentence X is then given by
+  - 其中 $V$ 是pre-determined vocabulary
+- The most probable segmentation $x_∗$ for the input sentence $X$ is then given by
   - $X^* = \arg_{x\in{S(X)}}\max{P(X)}$
-  - where S (X ) is a set of segmentation candidates built from the input sentence X. x∗ is obtained with the Viterbi algorithm (Viterbi, 1967). 其中S(X)是用来拆分X的subword备选项集合，而能够得到最大可能性的X*集合则是通过维特比算法得到的
-  - 原始单词表一般巨大，直接去遍历所有可能的组合计算并不科学；[维特比算法](https://zh.wikipedia.org/wiki/%E7%BB%B4%E7%89%B9%E6%AF%94%E7%AE%97%E6%B3%95)是一种动规划算法，此处用来求解序列乘积最大值
+  - where $S (X )$ is a set of segmentation candidates built from the input sentence $X$. $x_∗$ is obtained with the Viterbi algorithm (Viterbi, 1967). 
+    - 其中 $S(X)$ 是用来拆分 $X$ 的subword备选项集合，而能够得到最大可能性的$X_*$集合则是通过维特比算法得到的
+    - 原始单词表一般巨大，直接去遍历所有可能的组合计算并不科学；[维特比算法](https://zh.wikipedia.org/wiki/%E7%BB%B4%E7%89%B9%E6%AF%94%E7%AE%97%E6%B3%95)是一种动规划算法，此处用来求解序列乘积最大值
 
 ## Vocab Preparation
 
@@ -30,7 +32,11 @@ Unigram LM assume假设：
 
 The vocabulary set $V$ is indeed undertermined at the very beginning and cannot be solved simultaneously with the maximization task. A workaround is to provide a seed vocabulary as the initial (reasonably big enough) vocabulary, and shrink the seed vocabulary during training until a desired vocabulary size is reached.
 
-初始阶段Vocab无法确定，解决方案是先准备一个足够大的vocab，然后慢慢在训练过程中缩小至理想的size；
+初始阶段Vocab无法确定，同时我们的 Vocab中的$P(X)$ 也是未知的，
+
+解决方案是先准备一个足够大的vocab，然后慢慢在训练过程中缩小至理想的size；
+
+对Vocab中$P(X)$，通过**最大期望算法**去估计
 
 
 
@@ -52,10 +58,11 @@ $$
 继续论文：但现实情况更复杂，我们在初始阶段，$V$其实也是不知道的；我们可以通过以下方式去处理；
 
 - 初始阶段先建立一个足够大 的词汇表（可以通过BPE初始化，也可以通过语料库中所有单词+常见subword等）
-- 重复迭代以下步骤指导达到理想vocab size
-  - 确定本次迭代vocab，用EM算法求解$p(x)$
+- 重复迭代以下步骤直到达到理想vocab size
+  - 确定本次迭代vocab，用EM算法求解$p(x)$（近似）
   - 计算每个subword $x_i$的$loss_i$：删除这个subword之后，likeliehood $L$的下降值
-  - 根据$loss_i$ sort我们的subword，保留top n%的单词，同时需要保留single char以防止OOV情况出现
+  - 根据$loss_i$ sort我们的subword，保留top $n$%的单词
+  - 同时需要保留single char以防止OOV情况出现
 
 
 

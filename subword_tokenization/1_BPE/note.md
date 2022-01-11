@@ -14,7 +14,7 @@ focus only on BPE，后期基于此方法还发展了WordPiece，SentencePiece�
 - BPE初始提出时候是为了解决数据压缩问题。
 
 - 思想和逻辑：
-  - 当数据（文本，字符 etc）中有**重复连续**出现的信息时候，我们可以使用更短的unique的字符来替代相应信息。
+  - 当数据（文本，字符 etc）中有**重复连续**出现的信息时候，我们可以使用更短的shorter，未使用过的unused，唯一的unique的字符来替代相应信息。
   - 更新后得到新的数据，再重复上述步骤，压缩数据直到无法继续压缩。
   - 压缩的过程当中，会得到一张对照表，即原文和替代字符的对照表。我们需要把压缩结果和对照表一同保存。
   - 数据解压过程和压缩过程相反，参考对照表，将替代信息替换成原始信息，重复替换过程直到解压完成。
@@ -24,17 +24,19 @@ focus only on BPE，后期基于此方法还发展了WordPiece，SentencePiece�
 ```
 # 数据压缩过程
 # data to be encoded
-aaabdaaadbac
+aaabdaaabac
 
 # 'aa'出现频率最高，替换为'Z'(Z=aa)
-ZabdZabdac
+ZabdZabac
 
 # 'ab'出现频率最高，替换为'Y'(Y=ab)
-ZYdZYdac
+ZYdZYac
 
 # 'ZY'出现频率最高，替换为'X'(X=ZY)
+XdXac
 
-aaabdaaadbac => XdXdac
+# 压缩结果
+aaabdaaabac => XdXac
 # 同时输出对照表
 X = ZY
 Y = ab
@@ -42,13 +44,13 @@ Z = aa
 
 # 数据解压过程
 X = ZY
-XdXdac => ZYdZYdac
+XdXac => ZYdZYac
 
 Y = ab
-ZYdZYdac => ZabdZabdac
+ZYdZYac => ZabdZabac
 
 Z = aa
-ZabdZabdac => aaabdaaabdac
+ZabdZabac => aaabdaaabac
 ```
 
 ## BPE in NMT
@@ -95,6 +97,10 @@ Rico Sennrich, Barry Haddow, and Alexandra Birch在其论文[[1]]中的提出的
 details参见code
 
 ![BPE_operation](note.assets/BPE_operation.png)
+
+DemoCode: `BPE_operation.py`
+
+subword-nmt: [Github Repo](https://github.com/rsennrich/subword-nmt)
 
 ```
 subword-nmt learn-joint-bpe-and-vocab [-h] --input PATH [PATH ...] --output PATH [--symbols SYMBOLS] [--separator STR] --write-vocabulary PATH [PATH ...] [--min-frequency FREQ] [--total-symbols] [--num-workers NUM_WORKERS] [--verbose]
